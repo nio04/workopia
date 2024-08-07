@@ -23,7 +23,7 @@
         software solutions.
       </p>
       <ul class="my-4 bg-gray-100 p-4">
-        <li class="mb-2"><strong>Salary:</strong> <?= formatSalary($listing->Salary) ?></li>
+        <li class="mb-2"><strong>Salary:</strong> <?= formatSalary($listing->salary) ?></li>
         <li class="mb-2">
           <strong>Location:</strong> <?= $listing->city ?>, <?= $listing->state ?>
           <span
@@ -44,7 +44,7 @@
       Job Requirements
     </h3>
     <p>
-      <?= $listing->Requirements ?>
+      <?= $listing->requirements ?>
     </p>
     <h3 class="text-lg font-semibold mt-4 mb-2 text-blue-500">Benefits</h3>
     <p><?= $listing->benefits ?></p>

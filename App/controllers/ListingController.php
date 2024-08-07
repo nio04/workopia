@@ -51,6 +51,25 @@ class ListingController {
 
     $newListingData = array_map('sanitize', $newListingData);
 
-    dd($_POST);
+
+    $requireFields = ['title', 'description', 'email', 'city', 'state'];
+
+    $errors = [];
+
+    foreach ($requireFields as $field) {
+      if (empty($newListingData[$field]) || !Validation::string($newListingData[$field])) {
+        $errors[$field] = ucfirst($field) . " is required.";
+      }
+    }
+
+    if (!empty($errors)) {
+      // reload with error
+      loadView('listings/create', [
+        'errors' => $errors,
+        'listing' => $newListingData
+      ]);
+    } else {
+      // submit to DB
+    }
   }
 }

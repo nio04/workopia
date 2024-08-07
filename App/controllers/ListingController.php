@@ -41,4 +41,16 @@ class ListingController {
       "listing" => $listing
     ]);
   }
+
+  public function store() {
+    $allowedFields = ['title', 'description', 'salary', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email', 'requirements', 'benefits'];
+
+    $newListingData = array_intersect_key($_POST, array_flip($allowedFields));
+
+    $newListingData['user_id'] = 1;
+
+    $newListingData = array_map('sanitize', $newListingData);
+
+    dd($_POST);
+  }
 }

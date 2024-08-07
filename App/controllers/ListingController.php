@@ -52,7 +52,7 @@ class ListingController {
     $newListingData = array_map('sanitize', $newListingData);
 
 
-    $requireFields = ['title', 'description', 'email', 'city', 'state'];
+    $requireFields = ['title', 'description', 'salary', 'email', 'city', 'state'];
 
     $errors = [];
 
@@ -70,6 +70,50 @@ class ListingController {
       ]);
     } else {
       // submit to DB
+
+      $fields = [];
+
+      foreach ($newListingData as $field => $value) {
+        echo $field;
+        $fields[] = $field;
+      }
+
+      $fields = implode(', ', $fields);
+
+      $values = [];
+
+      foreach ($newListingData as $field => $value) {
+        //convert '' to null
+        if ($field === "") {
+          $newListingData[$field] = null;
+        }
+
+        $values[] = ':' . $field;
+      }
+      $values = implode(', ', $values);
+      $query = "INSERT INTO listings ($fields) VALUES ($values)";
+
+      $this->db->query($query, $newListingData);
+
+      redirect("/listings");
     }
+  }
+
+  public function destroy($params) {
+    $id = $params['id'];
+
+    $params = [
+      'id' => $id
+    ];
+
+    $listing = $this->db->query("SELECT * FROM listings WHERE id = :id", $params)->fetch();
+
+    if (!$listing) {
+      ErrorController::notFound("listing not found");
+      return;
+    }
+    $this->db->query("DELETE FROM listings WHERE id = :id", $params);
+
+    redirect("/listings");
   }
 }

@@ -86,6 +86,7 @@ class Router {
       }
     }
 
+    // if not found, simply load error page
     $this->error();
   }
 }
